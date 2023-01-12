@@ -1,3 +1,4 @@
+import random
 from sqlalchemy import text
 from sqlalchemy import create_engine, Column, Integer, String
 from sqlalchemy.ext.declarative import declarative_base
@@ -43,9 +44,10 @@ session.add(Vocab(english='green', german='Grün'))
 session.add(Vocab(english='blue', german='Blau'))
 session.add(Vocab(english='bird', german='Vogel'))
 session.add(Vocab(english='cow', german='Kuh'))
+session.add(Vocab(english='tree', german='Baum'))
+session.add(Vocab(english='twenty', german='Zwanzig'))
+session.add(Vocab(english='apple', german='Apfel'))
 session.commit()
-
-import random
 
 while True:
     # Get a random vocabulary word from the table
@@ -65,7 +67,7 @@ while True:
         if cont.lower() != "y":
             break
     else: 
-        # Print the German word and prompt the trainee to guess the English translation
+        # Print the English word and prompt the trainee to guess the German translation
         print("English:", vocab_word.english)
         guess = input("What is the German translation? ")
 
