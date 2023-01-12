@@ -21,6 +21,13 @@ Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+print("Welcome to the vocabulary trainer!")
+print("Please choose a language to learn:")
+print("1. German to English")
+print("2. English to German")
+language_choice = int(input("Enter your choice (1 or 2): "))
+
+
 # Add some vocabulary words to the table
 session.add(Vocab(english='cat', german='Katze'))
 session.add(Vocab(english='dog', german='Hund'))
@@ -43,17 +50,32 @@ import random
 while True:
     # Get a random vocabulary word from the table
     vocab_word = session.query(Vocab).order_by(text("RANDOM()")).first()
+    if language_choice == 1:
+        # Print the German word and prompt the trainee to guess the English translation
+        print("German:", vocab_word.german)
+        guess = input("What is the English translation? ")
 
-    # Print the German word and prompt the trainee to guess the English translation
-    print("German:", vocab_word.german)
-    guess = input("What is the English translation? ")
+        # Check if the trainee's guess is correct
+        if guess == vocab_word.english:
+            print("Correct!")
+        else:
+            print("Incorrect. The correct answer is", vocab_word.english)
 
-    # Check if the trainee's guess is correct
-    if guess == vocab_word.english:
-        print("Correct!")
-    else:
-        print("Incorrect. The correct answer is", vocab_word.english)
+        cont = input("Do you want to continue? (y/n) ")
+        if cont.lower() != "y":
+            break
+    else: 
+        # Print the German word and prompt the trainee to guess the English translation
+        print("English:", vocab_word.english)
+        guess = input("What is the German translation? ")
 
-    cont = input("Do you want to continue? (y/n) ")
-    if cont.lower() != "y":
-        break
+        # Check if the trainee's guess is correct
+        if guess == vocab_word.german:
+            print("Correct!")
+        else:
+            print("Incorrect. The correct answer is", vocab_word.german)
+
+        cont = input("Do you want to continue? (y/n) ")
+        if cont.lower() != "y":
+            break
+
