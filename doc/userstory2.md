@@ -13,4 +13,4 @@
 * There will be a message to the trainee where the chosen option is shown.
 
 ## Error 
-*  If the trainee types in anything but 1 or 2, he will be asked again and a there will be a message that he can only type in 1 or 2. 
+*  An Error should occure if the trainee types in something else then the Numbers 1 or 2
