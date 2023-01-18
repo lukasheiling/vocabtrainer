@@ -1,9 +1,17 @@
-# Userstorys
+# Userstory1
 
-* The trainee can add new vocab pairs. 
+## Actor 
+* trainee
 
-* The trainee wants to learn english and german words.
- 
-* The vocabs are stored in a database. 
+## Input
+* vocab pairs
 
-* The trainee can choose if he wants to guess the german or the english version of the vocabs.
+## Desciption
+* The trainee should be asked if he wants to add new vocab pairs. 
+
+## Output
+* There will be a message to the trainee if the vocab pair was added succesfully.
+
+## Error 
+* There should be an Error if the vocab pair already exists.
+
