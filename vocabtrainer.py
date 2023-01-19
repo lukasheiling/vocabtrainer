@@ -1,6 +1,6 @@
 import random
 from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, String, create_engine, text
+from sqlalchemy import Column, Integer, String, create_engine, text, UniqueConstraint
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -19,6 +19,7 @@ class Unit(Base):
     __tablename__ = "unit"
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    __table_args__ = (UniqueConstraint('name', name='uq_name'), )
 
 # Create the vocabulary table in the database
 Base.metadata.create_all(bind=engine)
@@ -34,8 +35,32 @@ print("1. German to English")
 print("2. English to German")
 language_choice = int(input("Enter your choice (1 or 2): "))
 
+# create a session 
+session = create_session()
+
+# list of units
+units = ['UNIT 1','UNIT 2','UNIT 3','UNIT 4','UNIT 5']
+
+for unit in units:
+    try:
+        existing_unit = session.query(Unit).filter_by(name=unit).one()
+        print(f"Unit {unit} already exists in the database")
+    except NoResultFound:
+        session.add(Unit(name=unit))
+        print(f"Unit {unit} added to the database")
+
+session.commit()
+# close the session
+session.close()
+
 
 session.add(Unit(name='UNIT 1'))
+session.add(Unit(name='UNIT 2'))
+session.add(Unit(name='UNIT 3'))
+session.add(Unit(name='UNIT 4'))
+session.add(Unit(name='UNIT 5'))
+
+
 
 # Add vocabulary words to the table
 session.add(Vocab(english='cat', german='Katze'))
