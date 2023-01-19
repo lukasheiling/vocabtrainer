@@ -15,6 +15,11 @@ class Vocab(Base):
     english = Column(String)
     german = Column(String)
 
+class Unit(Base):
+    __tablename__ = "unit"
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+
 # Create the vocabulary table in the database
 Base.metadata.create_all(bind=engine)
 
@@ -23,11 +28,14 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 print("Welcome to the vocabulary trainer!")
-print("Please choose a language to learn:")
+unit_choice = int(input("Enter which unit u want to learn (1 to 5): "))
+print("Please choose which word u want to guess: ")
 print("1. German to English")
 print("2. English to German")
 language_choice = int(input("Enter your choice (1 or 2): "))
 
+
+session.add(Unit(name='UNIT 1'))
 
 # Add vocabulary words to the table
 session.add(Vocab(english='cat', german='Katze'))
