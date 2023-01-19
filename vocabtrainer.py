@@ -1,6 +1,6 @@
 import random
-from sqlalchemy import text
-from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, create_engine, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
@@ -8,7 +8,7 @@ from sqlalchemy.orm import sessionmaker
 engine = create_engine('sqlite:///vocab.db')
 Base = declarative_base()
 
-# Define a vocabulary table with columns for English and German words
+# Define tables
 class Vocab(Base):
     __tablename__ = 'vocab'
     id = Column(Integer, primary_key=True)
@@ -48,3 +48,35 @@ session.add(Vocab(english='tree', german='Baum'))
 session.add(Vocab(english='twenty', german='Zwanzig'))
 session.add(Vocab(english='apple', german='Apfel'))
 session.commit()
+
+while True:
+    # Get a random vocabulary word from the table
+    vocab_word = session.query(Vocab).order_by(text("RANDOM()")).first()
+    if language_choice == 1:
+        # Print the German word and prompt the trainee to guess the English translation
+        print("German:", vocab_word.german)
+        guess = input("What is the English translation? ")
+
+        # Check if the trainee's guess is correct
+        if guess == vocab_word.english:
+            print("Correct!")
+        else:
+            print("Incorrect. The correct answer is", vocab_word.english)
+
+        cont = input("Do you want to continue? (y/n) ")
+        if cont.lower() != "y":
+            break
+    else: 
+        # Print the English word and prompt the trainee to guess the German translation
+        print("English:", vocab_word.english)
+        guess = input("What is the German translation? ")
+
+        # Check if the trainee's guess is correct
+        if guess == vocab_word.german:
+            print("Correct!")
+        else:
+            print("Incorrect. The correct answer is", vocab_word.german)
+
+        cont = input("Do you want to continue? (y/n) ")
+        if cont.lower() != "y":
+            break
