@@ -12,8 +12,9 @@ Base = declarative_base()
 class Vocab(Base):
     __tablename__ = 'vocab'
     id = Column(Integer, primary_key=True)
-    english = Column(String)
-    german = Column(String)
+    english = Column(String, unique=True)
+    german = Column(String, unique=True)
+    __table_args__ = (UniqueConstraint('english', 'german', name='uq_english_german'), )
 
 class Unit(Base):
     __tablename__ = "unit"
@@ -41,11 +42,9 @@ session = Session()
 # list of units
 units = ['UNIT 1','UNIT 2','UNIT 3','UNIT 4','UNIT 5']
 
-
-
 for unit in units:
     existing_unit = session.query(Unit).filter_by(name=unit).one()
-    print(f"Unit {units} already exists in the database")
+
 
 # close the session
 
@@ -68,6 +67,7 @@ session.add(Vocab(english='cow', german='Kuh'))
 session.add(Vocab(english='tree', german='Baum'))
 session.add(Vocab(english='twenty', german='Zwanzig'))
 session.add(Vocab(english='apple', german='Apfel'))
+
 session.commit()
 session.close()
 
