@@ -36,30 +36,18 @@ print("2. English to German")
 language_choice = int(input("Enter your choice (1 or 2): "))
 
 # create a session 
-session = create_session()
+session = Session()
 
 # list of units
 units = ['UNIT 1','UNIT 2','UNIT 3','UNIT 4','UNIT 5']
 
+
+
 for unit in units:
-    try:
-        existing_unit = session.query(Unit).filter_by(name=unit).one()
-        print(f"Unit {unit} already exists in the database")
-    except NoResultFound:
-        session.add(Unit(name=unit))
-        print(f"Unit {unit} added to the database")
+    existing_unit = session.query(Unit).filter_by(name=unit).one()
+    print(f"Unit {units} already exists in the database")
 
-session.commit()
 # close the session
-session.close()
-
-
-session.add(Unit(name='UNIT 1'))
-session.add(Unit(name='UNIT 2'))
-session.add(Unit(name='UNIT 3'))
-session.add(Unit(name='UNIT 4'))
-session.add(Unit(name='UNIT 5'))
-
 
 
 # Add vocabulary words to the table
@@ -81,6 +69,7 @@ session.add(Vocab(english='tree', german='Baum'))
 session.add(Vocab(english='twenty', german='Zwanzig'))
 session.add(Vocab(english='apple', german='Apfel'))
 session.commit()
+session.close()
 
 while True:
     # Get a random vocabulary word from the table
