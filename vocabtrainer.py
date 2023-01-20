@@ -80,12 +80,11 @@ session.add(Vocab(english='apple', german='Apfel', unit_id=3))"""
 session.commit()
 session.close()
 
-if unit_choice == 1:
-    vocab_word = session.query(Vocab).filter(Vocab.unit_id == unit_choice).order_by(text("RANDOM()")).first()
 
 while True:
     # Get a random vocabulary word from the table
-    vocab_word = session.query(Vocab).order_by(text("RANDOM()")).first()
+    if unit_choice == 1 or 2 or 3 or 4 or 5:
+        vocab_word = session.query(Vocab).filter(Vocab.unit_id == unit_choice).order_by(text("RANDOM()")).first()
     if language_choice == 1:
         # Print the German word and prompt the trainee to guess the English translation
         print("German:", vocab_word.german)
