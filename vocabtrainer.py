@@ -60,14 +60,17 @@ background_label = tk.Label(app, image=background_image)
 background_label.pack(fill="both", expand=True)
 background_label.lower()
 
+# background moves with window
 def update_background(event):
     background_label.configure(width=event.width, height=event.height)
     background_label.place(x=0, y=0, relwidth=1, relheight=1)
+
+
 app.bind("<Configure>", update_background)
 
 app.title("Vocabulary Trainer")
 
-welcome_label = tk.Label(text="Welcome to the vocabulary trainer!")
+welcome_label = tk.Label(text="Welcome to the vocabulary trainer!", font=('Times', 18))
 welcome_label.pack()
 
 unit_choice = tk.IntVar()
@@ -109,9 +112,9 @@ def submit():
 
 
 correction = tk.StringVar()
+
+
 # when enter button is pressed
-
-
 def enter():
     global vocab_word
     if vocab_word is not None:  # vocab_word is set None at the beginning, it only gets corrected if the trainee has guessed something
@@ -143,13 +146,11 @@ submit_button.pack()
 result_label = tk.Label(text="")
 result_label.pack()
 
+
+
 # exit
-
-
 def close_debugging():
     sys.exit()
-
-
 close_button = tk.Button(text="Close Debugging", command=close_debugging)
 
 
@@ -192,23 +193,24 @@ for word in words_to_add:
         session.add(Vocab(english=word[0], german=word[1], unit_id=word[2]))
 
 # Add vocabulary words to the table
-"""session.add(Vocab(english='cat', german='Katze', unit_id=1))
-session.add(Vocab(english='dog', german='Hund', unit_id=1))
-session.add(Vocab(english='book', german='Buch', unit_id=2))
-session.add(Vocab(english='house', german='Haus', unit_id=3))
-session.add(Vocab(english='pig', german='Schwein', unit_id=4))
-session.add(Vocab(english='correct', german='richtig', unit_id=5))
-session.add(Vocab(english='mother', german='Mutter', unit_id=1))
-session.add(Vocab(english='father', german='Vater', unit_id=5))
-session.add(Vocab(english='siblings', german='Geschwister', unit_id=5))
-session.add(Vocab(english='red', german='Rot', unit_id=4))
-session.add(Vocab(english='green', german='Grün', unit_id=1))
-session.add(Vocab(english='blue', german='Blau', unit_id=3))
-session.add(Vocab(english='bird', german='Vogel', unit_id=5))
-session.add(Vocab(english='cow', german='Kuh', unit_id=2))
-session.add(Vocab(english='tree', german='Baum', unit_id=2))
-session.add(Vocab(english='twenty', german='Zwanzig', unit_id=5))
-session.add(Vocab(english='apple', german='Apfel', unit_id=3))"""
+"""def add_vocabs():
+    session.add(Vocab(english='cat', german='Katze', unit_id=1))
+    session.add(Vocab(english='dog', german='Hund', unit_id=1))
+    session.add(Vocab(english='book', german='Buch', unit_id=2))
+    session.add(Vocab(english='house', german='Haus', unit_id=3))
+    session.add(Vocab(english='pig', german='Schwein', unit_id=4))
+    session.add(Vocab(english='correct', german='richtig', unit_id=5))
+    session.add(Vocab(english='mother', german='Mutter', unit_id=1))
+    session.add(Vocab(english='father', german='Vater', unit_id=5))
+    session.add(Vocab(english='siblings', german='Geschwister', unit_id=5))
+    session.add(Vocab(english='red', german='Rot', unit_id=4))
+    session.add(Vocab(english='green', german='Grün', unit_id=1))
+    session.add(Vocab(english='blue', german='Blau', unit_id=3))
+    session.add(Vocab(english='bird', german='Vogel', unit_id=5))
+    session.add(Vocab(english='cow', german='Kuh', unit_id=2))
+    session.add(Vocab(english='tree', german='Baum', unit_id=2))
+    session.add(Vocab(english='twenty', german='Zwanzig', unit_id=5))
+    session.add(Vocab(english='apple', german='Apfel', unit_id=3))"""
 
 session.commit()
 session.close()
