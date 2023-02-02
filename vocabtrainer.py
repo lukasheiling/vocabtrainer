@@ -4,6 +4,7 @@ from sqlalchemy import Column, Integer, String, create_engine, text, UniqueConst
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker"""
 import random
+from time import sleep
 import tkinter as tk
 from tkinter import messagebox
 from sqlalchemy.orm import relationship
@@ -63,23 +64,44 @@ unit_entry = tk.Entry(textvariable=unit_choice)
 unit_entry.pack()
 
 language_choice = tk.IntVar()
-language_rb1 = tk.Entry(text="German to English", variable=language_choice, value=1)
+language_rb1 = tk.Radiobutton(text="German to English", variable=language_choice, value=1)
 language_rb2 = tk.Radiobutton(text="English to German", variable=language_choice, value=2)
 language_rb1.pack()
 language_rb2.pack()
 
-
-
+vocab_word = None
+guess_var = tk.StringVar()
+guessed_var = tk.StringVar()
 def submit():
     unit = unit_choice.get()
     #language = language_choice.get()
     result_label.config(text=f"You have selected Unit {unit}")
 
+    guess_vocab_label = tk.Label(textvariable=guess_var)
+    guess_vocab_label.pack()
+
+    guessed_entry = tk.Entry(textvariable=guessed_var)
+    guessed_entry.pack()
+
+    guessed_button = tk.Button(text="Enter", command=enter)
+    guessed_button.pack()
+    enter()
+
+def enter():
+    global vocab_word
+    if vocab_word is not None:
+        if guessed_var.get() == vocab_word.german:
+            print("Correct!")
+        else:
+            print("False!")
+
+    vocab_word = session.query(Vocab).filter(Vocab.unit_id == unit_choice.get()).order_by(text("RANDOM()")).first()
+    guess_var.set(f"What is the German word for {vocab_word.english}")
+
+    
+
 submit_button = tk.Button(text="Submit", command=submit)
 submit_button.pack()
-
-word_label = tk.Label(text="")
-word_label.pack()
 
 result_label = tk.Label(text="")
 result_label.pack()
