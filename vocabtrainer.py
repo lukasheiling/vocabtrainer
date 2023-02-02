@@ -1,4 +1,11 @@
+"""import random
+from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, create_engine, text, UniqueConstraint, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker"""
 import random
+import tkinter as tk
+from tkinter import messagebox
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, create_engine, text, UniqueConstraint, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
@@ -31,6 +38,60 @@ Base.metadata.create_all(bind=engine)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+#tkinter
+class VocabTrainer(tk.Tk):
+    def __init__(self, *args, **kwargs):
+        tk.Tk.__init__(self, *args, **kwargs)
+
+        self.title("Vocabulary Trainer")
+        self.geometry("1200x600")
+
+        self.unit_choice = tk.IntVar()
+        self.language_choice = tk.IntVar()
+
+        self.unit_label = tk.Label()
+
+
+app = tk.Tk()
+app.title("Vocabulary Trainer")
+
+welcome_label = tk.Label(text="Welcome to the vocabulary trainer!")
+welcome_label.pack()
+
+unit_choice = tk.IntVar()
+unit_entry = tk.Entry(textvariable=unit_choice)
+unit_entry.pack()
+
+language_choice = tk.IntVar()
+language_rb1 = tk.Entry(text="German to English", variable=language_choice, value=1)
+language_rb2 = tk.Radiobutton(text="English to German", variable=language_choice, value=2)
+language_rb1.pack()
+language_rb2.pack()
+
+
+
+def submit():
+    unit = unit_choice.get()
+    #language = language_choice.get()
+    result_label.config(text=f"You have selected Unit {unit}")
+
+submit_button = tk.Button(text="Submit", command=submit)
+submit_button.pack()
+
+word_label = tk.Label(text="")
+word_label.pack()
+
+result_label = tk.Label(text="")
+result_label.pack()
+
+
+app.mainloop()
+
+root = tk.Tk()
+root.withdraw()
+messagebox.showinfo("Vocab Trainer Lukas Heiling", "Hopefully u learned some vocabs today!")
+
+#ouput console
 print("Welcome to the vocabulary trainer!")
 unit_choice = int(input("Enter which unit u want to learn (1 to 5): "))
 print("Please choose which word u want to guess: ")
@@ -50,7 +111,7 @@ words_to_add = [('cat', 'Katze', 1), ('dog', 'Hund', 1), ('book', 'Buch', 2), ('
 ('siblings', 'Geschwister', 5), ('red', 'Rot', 4), ('green', 'Grün', 1), ('blue', 'Blau', 3), 
 ('bird', 'Vogel', 5), ('cow', 'Kuh', 2), ('tree', 'Baum', 2), ('twenty', 'Zwanzig', 5), ('apple', 'Apfel', 3)]
 
-
+# filter die units 
 for unit in unit_list:
     existing_unit = session.query(Unit).filter_by(name=unit).one()
 
@@ -113,4 +174,3 @@ while True:
         cont = input("Do you want to continue? (y/n) ")
         if cont.lower() != "y":
             break
-
