@@ -54,34 +54,23 @@ class VocabTrainer(tk.Tk):
 
 app = tk.Tk()
 app.geometry("800x400")
-# app.configure(bg='lightblue')
-background_image = PhotoImage(file="flag4.png")
-background_label = tk.Label(app, image=background_image)
-background_label.pack(fill="both", expand=True)
-background_label.lower()
-
-# background moves with window
-def update_background(event):
-    background_label.configure(width=event.width, height=event.height)
-    background_label.place(x=0, y=0, relwidth=1, relheight=1)
-
-
-app.bind("<Configure>", update_background)
+app.configure(bg='lightblue')
 
 app.title("Vocabulary Trainer")
 
-welcome_label = tk.Label(text="Welcome to the vocabulary trainer!", font=('Times', 18))
+welcome_label = tk.Label(text="Welcome to the vocabulary trainer!", font=('Times', 16))
 welcome_label.pack()
+
+unit_label = tk.Label(text="Please choose the Unit (1-5)")
+unit_label.pack()
 
 unit_choice = tk.IntVar()
 unit_entry = tk.Entry(textvariable=unit_choice)
 unit_entry.pack()
 
 language_choice = tk.IntVar()
-language_rb1 = tk.Radiobutton(
-    text="German to English", variable=language_choice, value=1)
-language_rb2 = tk.Radiobutton(
-    text="English to German", variable=language_choice, value=2)
+language_rb1 = tk.Radiobutton(text="German to English", variable=language_choice, value=1)
+language_rb2 = tk.Radiobutton(text="English to German", variable=language_choice, value=2)
 language_rb1.pack()
 language_rb2.pack()
 
