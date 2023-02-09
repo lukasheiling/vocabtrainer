@@ -22,10 +22,11 @@ class VocabTrainer(tk.Tk):
 
 app = tk.Tk()
 app.geometry("1200x600")
-#app.configure(bg='lightblue')
+# app.configure(bg='lightblue')
 
 app.title("Vocabulary Trainer")
 
+# Labels
 welcome_label = tk.Label(text="Welcome to the vocabulary trainer!", font=(10))
 welcome_label.pack(pady=10)
 
@@ -53,7 +54,7 @@ guess_var = tk.StringVar()
 guessed_var = tk.StringVar()
 
 
-def submit():
+def submit():  # function for submit button
     unit = unit_choice.get()
     result_label.config(text=f"You have selected Unit {unit}!")
 
@@ -94,9 +95,10 @@ def enter():
             else:
                 correction.set(
                     f"Incorrect!")
-    
-    guessed_var.set("")
 
+    guessed_var.set("")  # Entryfield gets cleared after Enterbutton is pressed
+
+    # asks the user depending on the choosen option before
     if language_choice.get() == 1:
         vocab_word = session.query(Vocab).filter(
             Vocab.unit_id == unit_choice.get()).order_by(text("RANDOM()")).first()  # selects a random word from choosen unit
@@ -105,7 +107,7 @@ def enter():
         vocab_word = session.query(Vocab).filter(
             Vocab.unit_id == unit_choice.get()).order_by(text("RANDOM()")).first()
         guess_var.set(f"What is the German word for {vocab_word.english}?")
-    
+
 
 submit_button = tk.Button(text="Submit", command=submit, font=(10))
 submit_button.pack(pady=2)
@@ -149,7 +151,7 @@ for word in Vocab:
     if session.query(Vocab).filter(Vocab.english == word[0]).count() == 0:
         session.add(Vocab(english=word[0], german=word[1], unit_id=word[2]))
 
-# für terminal 
+### für Terminal ###
 while True:
     # Get a random vocabulary word from the table
     if unit_choice == 1 or 2 or 3 or 4 or 5:
