@@ -8,39 +8,9 @@ from sqlalchemy import Column, Integer, String, create_engine, text, UniqueConst
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
+from database import session, Vocab, Unit
+
 # Create a SQLite database file called "vocab.db"
-engine = create_engine('sqlite:///vocab.db')
-Base = declarative_base()
-
-# Define tables
-
-
-class Vocab(Base):
-    __tablename__ = 'vocab'
-    id = Column(Integer, primary_key=True)
-    unit_id = Column(Integer, ForeignKey('unit.id'))
-    english = Column(String, unique=True)
-    german = Column(String, unique=True)
-    __table_args__ = (UniqueConstraint(
-        'english', 'german', name='uq_english_german'), )
-
-
-class Unit(Base):
-    __tablename__ = "unit"
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    __table_args__ = (UniqueConstraint('name', name='uq_name'), )
-
-
-# Create the vocabulary table in the database
-Base.metadata.create_all(bind=engine)
-
-# Start a session to interact with the database
-Session = sessionmaker(bind=engine)
-session = Session()
-
-# tkinter
-
 
 class VocabTrainer(tk.Tk):
     def __init__(self, *args, **kwargs):
@@ -53,26 +23,26 @@ class VocabTrainer(tk.Tk):
 
 
 app = tk.Tk()
-app.geometry("800x400")
-app.configure(bg='lightblue')
+app.geometry("1200x600")
+#app.configure(bg='lightblue')
 
 app.title("Vocabulary Trainer")
 
-welcome_label = tk.Label(text="Welcome to the vocabulary trainer!", font=('Times', 16))
-welcome_label.pack()
+welcome_label = tk.Label(text="Welcome to the vocabulary trainer!", font=(10))
+welcome_label.pack(pady=10)
 
-unit_label = tk.Label(text="Please choose the Unit (1-5)")
-unit_label.pack()
+unit_label = tk.Label(text="Please choose the Unit (1-5)!", font=(10))
+unit_label.pack(pady=2)
 
 unit_choice = tk.IntVar()
-unit_entry = tk.Entry(textvariable=unit_choice)
-unit_entry.pack()
+unit_entry = tk.Entry(textvariable=unit_choice, font=(10))
+unit_entry.pack(pady=2)
 
 language_choice = tk.IntVar()
-language_rb1 = tk.Radiobutton(text="German to English", variable=language_choice, value=1)
-language_rb2 = tk.Radiobutton(text="English to German", variable=language_choice, value=2)
-language_rb1.pack()
-language_rb2.pack()
+language_rb1 = tk.Radiobutton(text="English", variable=language_choice, value=1, font=(10))
+language_rb2 = tk.Radiobutton(text="German", variable=language_choice, value=2, font=(10))
+language_rb1.pack(pady=2)
+language_rb2.pack(pady=2)
 
 
 vocab_word = None
@@ -82,21 +52,21 @@ guessed_var = tk.StringVar()
 
 def submit():
     unit = unit_choice.get()
-    result_label.config(text=f"You have selected Unit {unit}")
+    result_label.config(text=f"You have selected Unit {unit}!")
 
-    guess_vocab_label = tk.Label(textvariable=guess_var)
-    guess_vocab_label.pack()
+    guess_vocab_label = tk.Label(textvariable=guess_var, font=(10))
+    guess_vocab_label.pack(pady=2)
 
-    guessed_entry = tk.Entry(textvariable=guessed_var)
-    guessed_entry.pack()
+    guessed_entry = tk.Entry(textvariable=guessed_var, font=(10))
+    guessed_entry.pack(pady=2)
 
-    guessed_button = tk.Button(text="Enter", command=enter)
-    guessed_button.pack()
+    guessed_button = tk.Button(text="Enter", command=enter, font=(10))
+    guessed_button.pack(pady=2)
 
-    correction_label = tk.Label(textvariable=correction)
-    correction_label.pack()
+    correction_label = tk.Label(textvariable=correction, font=(10), fg='orange') 
+    correction_label.pack(pady=2)
 
-    close_button.pack()
+    close_button.pack(pady=10)
     enter()
 
 
@@ -106,41 +76,41 @@ correction = tk.StringVar()
 # when enter button is pressed
 def enter():
     global vocab_word
-    if vocab_word is not None:  # vocab_word is set None at the beginning, it only gets corrected if the trainee has guessed something
+    if vocab_word is not None:  #vocab_word is set None at the beginning, it only gets corrected if the trainee has guessed something
         if language_choice.get() == 1:
 
             if guessed_var.get() == vocab_word.english:
                 correction.set("Correct!")
             else:
-                correction.set("Incorrect!")
+                correction.set(f"Incorrect! The correct answer is {vocab_word.english}")
         else:
             if guessed_var.get() == vocab_word.german:
                 correction.set("Correct!")
             else:
-                correction.set("Incorrect!")
+                correction.set(f"Incorrect! The correct answer is {vocab_word.german}")
 
     if language_choice.get() == 1:
         vocab_word = session.query(Vocab).filter(
-            Vocab.unit_id == unit_choice.get()).order_by(text("RANDOM()")).first()
-        guess_var.set(f"What is the English word for {vocab_word.german}")
+            Vocab.unit_id == unit_choice.get()).order_by(text("RANDOM()")).first() # selects a random word from choosen unit
+        guess_var.set(f"What is the English word for {vocab_word.german}?")
     else:
         vocab_word = session.query(Vocab).filter(
             Vocab.unit_id == unit_choice.get()).order_by(text("RANDOM()")).first()
-        guess_var.set(f"What is the German word for {vocab_word.english}")
+        guess_var.set(f"What is the German word for {vocab_word.english}?")
 
 
-submit_button = tk.Button(text="Submit", command=submit)
-submit_button.pack()
+submit_button = tk.Button(text="Submit", command=submit, font=(10))
+submit_button.pack(pady=2)
 
-result_label = tk.Label(text="")
-result_label.pack()
-
+# if the unit is submitted
+result_label = tk.Label(text="", font=(2), fg='green')
+result_label.pack(pady=2)
 
 
 # exit
 def close_debugging():
     sys.exit()
-close_button = tk.Button(text="Close Debugging", command=close_debugging)
+close_button = tk.Button(text="Close", command=close_debugging, font=(10), fg='red')
 
 
 app.mainloop()
@@ -159,8 +129,6 @@ print("1. German to English")
 print("2. English to German")
 language_choice = int(input("Enter your choice (1 or 2): "))
 
-# create a session
-session = Session()
 
 # list of units
 unit_list = ['UNIT 1', 'UNIT 2', 'UNIT 3', 'UNIT 4', 'UNIT 5']
@@ -182,7 +150,7 @@ for word in words_to_add:
         session.add(Vocab(english=word[0], german=word[1], unit_id=word[2]))
 
 # Add vocabulary words to the table
-"""def add_vocabs():
+def add_vocabs():
     session.add(Vocab(english='cat', german='Katze', unit_id=1))
     session.add(Vocab(english='dog', german='Hund', unit_id=1))
     session.add(Vocab(english='book', german='Buch', unit_id=2))
@@ -199,8 +167,9 @@ for word in words_to_add:
     session.add(Vocab(english='cow', german='Kuh', unit_id=2))
     session.add(Vocab(english='tree', german='Baum', unit_id=2))
     session.add(Vocab(english='twenty', german='Zwanzig', unit_id=5))
-    session.add(Vocab(english='apple', german='Apfel', unit_id=3))"""
-
+    session.add(Vocab(english='apple', german='Apfel', unit_id=3))
+    session.add(Vocab(english='pillow', german='Polster', unit_id=5))
+add_vocabs()
 session.commit()
 session.close()
 
