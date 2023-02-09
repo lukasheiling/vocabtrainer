@@ -1,9 +1,3 @@
-import random
-import sys
-from time import sleep
-import tkinter as tk
-from tkinter import PhotoImage, messagebox
-from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, String, create_engine, text, UniqueConstraint, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -43,25 +37,43 @@ def add_vocabs():
     session.add(Unit(name='UNIT 4'))
     session.add(Unit(name='UNIT 5'))
     
-    session.add(Vocab(english='cat', german='Katze', unit_id=1))
-    session.add(Vocab(english='dog', german='Hund', unit_id=1))
-    session.add(Vocab(english='book', german='Buch', unit_id=2))
-    session.add(Vocab(english='house', german='Haus', unit_id=3))
-    session.add(Vocab(english='pig', german='Schwein', unit_id=4))
-    session.add(Vocab(english='correct', german='richtig', unit_id=5))
-    session.add(Vocab(english='mother', german='Mutter', unit_id=1))
-    session.add(Vocab(english='father', german='Vater', unit_id=5))
-    session.add(Vocab(english='siblings', german='Geschwister', unit_id=5))
-    session.add(Vocab(english='red', german='Rot', unit_id=4))
-    session.add(Vocab(english='green', german='Grün', unit_id=1))
-    session.add(Vocab(english='blue', german='Blau', unit_id=3))
-    session.add(Vocab(english='bird', german='Vogel', unit_id=5))
-    session.add(Vocab(english='cow', german='Kuh', unit_id=2))
+    session.add(Vocab(english='time', german='Zeit', unit_id=1))
+    session.add(Vocab(english='water', german='Wasser', unit_id=1))
+    session.add(Vocab(english='book', german='Buch', unit_id=5))
+    session.add(Vocab(english='house', german='Haus', unit_id=2))
+    session.add(Vocab(english='dog', german='Hund', unit_id=5))
+    session.add(Vocab(english='cat', german='Katze', unit_id=4))
+    session.add(Vocab(english='car', german='Auto', unit_id=5))
+    session.add(Vocab(english='sun', german='Sonne', unit_id=1))
+    session.add(Vocab(english='moon', german='Mond', unit_id=5))
     session.add(Vocab(english='tree', german='Baum', unit_id=2))
-    session.add(Vocab(english='twenty', german='Zwanzig', unit_id=5))
-    session.add(Vocab(english='apple', german='Apfel', unit_id=3))
-    session.add(Vocab(english='pillow', german='Polster', unit_id=5))
-    session.add(Vocab(english='good', german='gut', unit_id=5))
+    session.add(Vocab(english='flower', german='Blume', unit_id=5))
+    session.add(Vocab(english='chair', german='Stuhl', unit_id=1))
+    session.add(Vocab(english='table', german='Tisch', unit_id=5))
+    session.add(Vocab(english='computer', german='Computer', unit_id=2))
+    session.add(Vocab(english='phone', german='Telefon', unit_id=5))
+    session.add(Vocab(english='television', german='Fernseher', unit_id=3))
+    session.add(Vocab(english='music', german='Musik', unit_id=5))
+    session.add(Vocab(english='movie', german='Film', unit_id=4))
+    session.add(Vocab(english='food', german='Essen', unit_id=2))
+    session.add(Vocab(english='drink', german='Getränk', unit_id=1))
+    session.add(Vocab(english='country', german='Land', unit_id=4))
+    session.add(Vocab(english='mountain', german='Berg', unit_id=3))
+    session.add(Vocab(english='river', german='Fluss', unit_id=5))
+    session.add(Vocab(english='ocean', german='Ozean', unit_id=4))
+    session.add(Vocab(english='beach', german='Strand', unit_id=5))
+    session.add(Vocab(english='sky', german='Himmel', unit_id=2))
+    session.add(Vocab(english='earth', german='Erde', unit_id=1))
+    session.add(Vocab(english='person', german='Person', unit_id=5))
+    session.add(Vocab(english='animal', german='Tier', unit_id=2))
+    session.add(Vocab(english='example', german='Beispiel', unit_id=3))
+    session.add(Vocab(english='year', german='Jahr', unit_id=1))
+    session.add(Vocab(english='city', german='Stadt', unit_id=2))
+    session.add(Vocab(english='state', german='Staat', unit_id=3))
+    session.add(Vocab(english='we', german='wir', unit_id=4))
+    session.add(Vocab(english='long', german='lang', unit_id=1))
+    session.add(Vocab(english='other', german='andere', unit_id=3))
+
     
 if __name__ == "__main__":
     add_vocabs()
