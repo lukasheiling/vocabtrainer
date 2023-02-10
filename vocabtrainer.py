@@ -33,9 +33,12 @@ welcome_label.pack(pady=10)
 unit_label = tk.Label(text="Please choose the Unit (1-5)!", font=(10))
 unit_label.pack(pady=2)
 
-unit_choice = tk.IntVar()
+unit_choice = tk.StringVar()
 unit_entry = tk.Entry(textvariable=unit_choice, font=(10))
 unit_entry.pack(pady=2)
+
+error_label = tk.Label(text="")
+error_label.pack(pady=2)
 
 choose_label = tk.Label(text="Which word do you want to guess?", font=(10))
 choose_label.pack(pady=2)
@@ -54,11 +57,32 @@ guess_var = tk.StringVar()
 guessed_var = tk.StringVar()
 
 
+def validate():  # checks if entry is valit
+    try:
+        choice = int(unit_choice.get())
+        if choice not in range(1, 6):
+            raise ValueError("Input must be a number from 1 to 5.")
+    except ValueError:
+        tk.messagebox.showerror(
+            "Invalid Input", "Input must be a number from 1 to 5.")
+        unit_entry.delete(0, tk.END)
+        return False
+    return True
+
+false_variable = False
 def submit():  # function for submit button
+    global false_variable
+    if false_variable == True: # blocks entry when there a unit is already entered
+        return
+    false_variable = True
     unit = unit_choice.get()
+    if not validate():  # only lets correct entrys pass
+        return
+    unit = int(unit)
+
     result_label.config(text=f"You have selected Unit {unit}!")
 
-    guess_vocab_label = tk.Label(textvariable=guess_var, font=(10))
+    guess_vocab_label = tk.Label(textvariable=guess_var, font=(10)) # user guesses the vocab
     guess_vocab_label.pack(pady=2)
 
     guessed_entry = tk.Entry(textvariable=guessed_var, font=(10))
@@ -112,7 +136,7 @@ def enter():
 submit_button = tk.Button(text="Submit", command=submit, font=(10))
 submit_button.pack(pady=2)
 
-# if the unit is submitted
+# when the unit is submitted
 result_label = tk.Label(text="", font=(2), fg='green')
 result_label.pack(pady=2)
 
@@ -134,7 +158,7 @@ messagebox.showinfo("Vocab Trainer Lukas Heiling",
                     "Hopefully u learned some vocabs today!")
 
 
-# ouput terminal
+### ouput terminal ###
 print("Welcome to the vocabulary trainer!")
 unit_choice = int(input("Enter which unit u want to learn (1 to 5): "))
 print("Please choose which word u want to guess: ")

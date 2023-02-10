@@ -73,6 +73,12 @@ def add_vocabs():
     session.add(Vocab(english='we', german='wir', unit_id=4))
     session.add(Vocab(english='long', german='lang', unit_id=1))
     session.add(Vocab(english='other', german='andere', unit_id=3))
+    session.add(Vocab(english='plumber', german='Klemtner', unit_id=3))
+    session.add(Vocab(english='church', german='Kirche', unit_id=3))
+    session.add(Vocab(english='soccer', german='Fußball', unit_id=4))
+    session.add(Vocab(english='badmington', german='Federball', unit_id=4))
+    
+    
 
     
 if __name__ == "__main__":
